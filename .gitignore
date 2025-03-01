@@ -1,0 +1,6 @@
+build/
+.cache
+subprojects/minhook
+subprojects/packagecache
+subprojects/libass
+subprojects/tomlc99
