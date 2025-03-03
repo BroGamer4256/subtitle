@@ -10,6 +10,8 @@ FUNCTION_PTR (bool, ResolveFilePath, 0x1402A5320, string *from);
 FUNCTION_PTR (int, GetLanguage, 0x1402C8D20);
 FUNCTION_PTR (Texture *, TextureLoadTex2D, 0x1405F0720, u32 id, i32 format, u32 width, u32 height, i32 mip_levels, void **data, i32, bool generate_mips);
 
+vector<string> *romDirs = (vector<string> *)0x1414AB8A0;
+
 SprArgs::SprArgs () {
 	memset (this, 0, sizeof (SprArgs));
 	DefaultSprArgs (this);

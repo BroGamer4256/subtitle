@@ -14,10 +14,12 @@ struct AssSubtitle {
 	diva::Texture *game_texture;
 
 	bool pre_rendered;
+	bool set_override;
+	bool set_font_dirs;
 };
 
 void ass_init (AssSubtitle *);
 void ass_d3dinit (AssSubtitle *, IDXGISwapChain *SwapChain, ID3D11Device *Device, ID3D11DeviceContext *DeviceContext);
 void ass_loadfile (AssSubtitle *, const char *path);
-void ass_render (AssSubtitle *, i64 ms, i32 game_mode, std::function<void (const char *)> disp_lyric);
+void ass_render (AssSubtitle *, i64 ms, i32 game_mode, u64 a1);
 void ass_unloadfile (AssSubtitle *);

@@ -205,6 +205,61 @@ struct string {
 	}
 };
 
+template <typename T>
+struct vector {
+	T *first;
+	T *last;
+	void *capacity_end;
+
+	vector () {}
+	vector (u64 n) {
+		this->first        = allocate<T> (n);
+		this->last         = this->first;
+		this->capacity_end = (void *)((u64)this->first + (n * sizeof (T)));
+	}
+
+	~vector () { deallocate (this->first); }
+
+	std::optional<T *> at (u64 index) {
+		if (index >= this->length ()) return std::nullopt;
+		return std::optional (&this->first[index]);
+	}
+
+	void push_back (T value) {
+		if (this->remaining_capcity () > 0) {
+			this->first[this->length ()] = value;
+			this->last++;
+			return;
+		}
+
+		u64 new_length = (this->length () + (this->length () / 2)) | 0xF;
+		T *new_first   = allocate<T> (new_length);
+		u64 old_length = (u64)this->last - (u64)this->first;
+		memcpy ((void *)new_first, (void *)this->first, old_length);
+		deallocate (this->first);
+
+		this->first        = new_first;
+		this->last         = (T *)((u64)new_first + old_length);
+		this->capacity_end = (void *)((u64)new_first + (new_length * sizeof (T)));
+
+		this->first[this->length ()] = value;
+		this->last++;
+	}
+
+	std::optional<T *> find (const std::function<bool (T *)> &func) {
+		for (auto it = this->begin (); it != this->end (); it++)
+			if (func (it)) return std::optional (it);
+		return std::nullopt;
+	}
+
+	u64 length () { return ((u64)this->last - (u64)this->first) / sizeof (T); }
+	u64 capacity () { return ((u64)this->capacity_end - (u64)this->first) / sizeof (T); }
+	u64 remaining_capcity () { return this->capacity () - this->length (); }
+
+	T *begin () { return this->first; }
+	T *end () { return this->last; }
+};
+
 enum resolutionMode : u32 {
 	RESOLUTION_MODE_QVGA          = 0x00,
 	RESOLUTION_MODE_VGA           = 0x01,
@@ -362,6 +417,8 @@ struct PracticeArgs {
 };
 
 #pragma pack(pop)
+
+extern vector<string> *romDirs;
 
 FUNCTION_PTR_H (SprArgs *, DrawSpr, SprArgs *args);
 FUNCTION_PTR_H (bool, ResolveFilePath, string *from);

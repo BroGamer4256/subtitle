@@ -30,14 +30,13 @@ HOOK (void, PvGameDisp, 0x140245360, u64 a1) {
 
 	i64 now = *(i64 *)(a1 + 0x2D348);
 
-	i64 ms          = now / 1'000'000;
-	auto game_mode  = *(i32 *)(0x140DAE930);
-	auto disp_lyric = [&] (const char *str) { originalDispLyric (a1 + 0x2C900, str, game_mode == 3 || game_mode == 6, 0xFFFFFFFF); };
+	i64 ms         = now / 1'000'000;
+	auto game_mode = *(i32 *)(0x140DAE930);
 
 	switch (subtitle.type) {
 	case SubtitleType::NotLoaded: break;
-	case SubtitleType::ASS: ass_render (&subtitle.ass_subtitle, ms, game_mode, disp_lyric); break;
-	case SubtitleType::VTT: vtt_render (&subtitle.vtt_subtitle, ms, game_mode, disp_lyric); break;
+	case SubtitleType::ASS: ass_render (&subtitle.ass_subtitle, ms, game_mode, a1); break;
+	case SubtitleType::VTT: vtt_render (&subtitle.vtt_subtitle, ms, game_mode, [&] (const char *str) { originalDispLyric (a1 + 0x2C900, str, game_mode == 3 || game_mode == 6, 0xFFFFFFFF); }); break;
 	}
 }
 
