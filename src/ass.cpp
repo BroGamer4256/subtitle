@@ -108,7 +108,7 @@ ass_render (AssSubtitle *self, i64 ms, i32 game_mode, std::function<void (const 
 			return;
 		}
 
-		memset ((u8 *)map.pData, 0, map.RowPitch * 1080 * 4);
+		memset (map.pData, 0, map.RowPitch * 1080);
 
 		// Code copied from mpv sub/ass_mp.c
 		// Diva needs upside down textures so write from bottom to top
