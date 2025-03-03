@@ -17,7 +17,7 @@ struct Subtitle {
 	VttSubtitle vtt_subtitle;
 } subtitle;
 
-const char *languages[] = {"jp", "en", "cn", "tw", "kr", "fr", "it", "ge", "sp"};
+const char *languages[] = {"jp", "ro", "cn", "tw", "kr", "fr", "it", "ge", "sp"};
 char user_language[64];
 
 HOOK (void, DispLyric, 0x140276E90, u64 play_data, const char *str, bool centered, u32 color) {
