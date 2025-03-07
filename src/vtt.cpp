@@ -175,14 +175,9 @@ vtt_loadfile (VttSubtitle *self, const char *path) {
 
 void
 vtt_render (VttSubtitle *self, i64 ms, i32 game_mode, std::function<void (const char *)> disp_lyric) {
-	for (auto event = self->events.begin (); event != self->events.end ();) {
+	for (auto event = self->events.begin (); event != self->events.end (); event++)
 		if (event->start_ms > ms) break;
-		else if (event->end_ms < ms) {
-		} else {
-			if (event->text.length () > 0) disp_lyric (event->text.c_str ());
-			event++;
-		}
-	}
+		else if (event->end_ms > ms && event->text.length () > 0) disp_lyric (event->text.c_str ());
 }
 
 void
