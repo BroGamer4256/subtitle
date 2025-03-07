@@ -26,7 +26,7 @@ HOOK (void, DispLyric, 0x140276E90, u64 play_data, const char *str, bool centere
 
 HOOK (void, PvGameDisp, 0x140245360, u64 a1) {
 	originalPvGameDisp (a1);
-	if (*(bool *)(a1 + 0x2D3AA) == false || subtitle.type == SubtitleType::NotLoaded) return;
+	if (*(bool *)(a1 + 0x2D17D) == true || *(bool *)(a1 + 0x2D3AA) == false || subtitle.type == SubtitleType::NotLoaded) return;
 
 	i64 now = *(i64 *)(a1 + 0x2D348);
 

@@ -107,6 +107,7 @@ void
 ass_render (AssSubtitle *self, i64 ms, i32 game_mode, u64 a1) {
 	if (self->track == nullptr || self->track->n_events == 0) return;
 
+	// Mainly for linux, protons DirectWrite implementation is shit
 	if (ms == 0 && !self->pre_rendered) {
 		for (auto i = 0; i < self->track->n_events; i++)
 			ass_render_frame (self->ass_renderer, self->track, self->track->events[i].Start, nullptr);
